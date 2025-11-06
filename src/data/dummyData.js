@@ -1,168 +1,222 @@
-export const dummySektor = Array.from({ length: 10 }, (_, index) => ({
-  _id: (index + 1).toString(),
-  name: index === 1 ? 'filter' : 'dummy'
-}));
-
-export const dummyResidentStatistic = {
-  code: 200,
-  status: true,
-  message: 'Data statistik penduduk',
-  data: {
-    penduduk: {
-      jumlah_penduduk: 100,
-      jumlah_kepala_keluarga: 20,
-      jumlah_perempuan: 42,
-      jumlah_laki_laki: 58
-    },
-    umur: [
-      {
-        kategori_umur: 'Remaja',
-        jumlah: 10
-      },
-      {
-        kategori_umur: 'Anak Anak',
-        jumlah: 10
-      }
-    ],
-    pendidikan: [
-      {
-        pendidikan_sedang_ditempuh: 'S1',
-        jumlah: 29
-      }
-    ],
-    pekerjaan: [
-      {
-        pekerjaan: 'Wirausaha',
-        jumlah: 100
-      }
-    ],
-    agama: [
-      {
-        agama: 'Hindu',
-        jumlah: 25
-      }
-    ],
-    status_perkawinan: [
-      {
-        status_perkawinan: 'telah menikah',
-        jumlah: 40
-      }
-    ],
-    dusun: [
-      {
-        nama_dusun: 'Semanggi',
-        jumlah: 29
-      }
-    ]
+export const dummyCust = [
+  {
+    id: 'CUS001',
+    name: 'Rafiq Daud',
+    phone: '6281234567890',
+    email: 'rafiq.daud@example.com',
+    company: 'Daud Store',
+    product: 'WhatsCRM Pro',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-04',
+    createdAt: '2025-01-12'
+  },
+  {
+    id: 'CUS002',
+    name: 'Aisyah Putri',
+    phone: '6281298765432',
+    email: 'aisyah.putri@example.com',
+    company: 'Putri Digital',
+    product: 'WhatsCRM Basic',
+    subscriptionStatus: 'trial',
+    lastContact: '2025-11-05',
+    createdAt: '2025-01-18'
+  },
+  {
+    id: 'CUS003',
+    name: 'Budi Santoso',
+    phone: '6281377766555',
+    email: 'budi.santoso@example.com',
+    company: 'Santoso Motor',
+    product: 'WhatsCRM Pro',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-06',
+    createdAt: '2025-02-02'
+  },
+  {
+    id: 'CUS004',
+    name: 'Siti Nurhaliza',
+    phone: '6282112345678',
+    email: 'siti.nurhaliza@example.com',
+    company: 'Nurhaliza Boutique',
+    product: 'WhatsCRM Pro',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-03',
+    createdAt: '2025-02-10'
+  },
+  {
+    id: 'CUS005',
+    name: 'Agus Saputra',
+    phone: '6282398712345',
+    email: 'agus.saputra@example.com',
+    company: 'Saputra Print',
+    product: 'WhatsCRM Basic',
+    subscriptionStatus: 'trial',
+    lastContact: '2025-11-01',
+    createdAt: '2025-02-12'
+  },
+  {
+    id: 'CUS006',
+    name: 'Lina Marlina',
+    phone: '6285212345901',
+    email: 'lina.marlina@example.com',
+    company: 'Marlina Cake',
+    product: 'WhatsCRM Business',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-06',
+    createdAt: '2025-02-20'
+  },
+  {
+    id: 'CUS007',
+    name: 'Dedi Prasetyo',
+    phone: '6285298765432',
+    email: 'dedi.prasetyo@example.com',
+    company: 'Prasetyo Logistic',
+    product: 'WhatsCRM Pro',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-05',
+    createdAt: '2025-02-23'
+  },
+  {
+    id: 'CUS008',
+    name: 'Maya Kurnia',
+    phone: '6281355512233',
+    email: 'maya.kurnia@example.com',
+    company: 'Kurnia Design',
+    product: 'WhatsCRM Business',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-04',
+    createdAt: '2025-03-02'
+  },
+  {
+    id: 'CUS009',
+    name: 'Hendra Wijaya',
+    phone: '6281366677788',
+    email: 'hendra.wijaya@example.com',
+    company: 'Wijaya Motors',
+    product: 'WhatsCRM Pro',
+    subscriptionStatus: 'expired',
+    lastContact: '2025-10-28',
+    createdAt: '2025-03-05'
+  },
+  {
+    id: 'CUS010',
+    name: 'Wulan Sari',
+    phone: '6282277888999',
+    email: 'wulan.sari@example.com',
+    company: 'Sari Beauty',
+    product: 'WhatsCRM Basic',
+    subscriptionStatus: 'trial',
+    lastContact: '2025-11-06',
+    createdAt: '2025-03-08'
+  },
+  {
+    id: 'CUS011',
+    name: 'Irfan Maulana',
+    phone: '6281299900011',
+    email: 'irfan.maulana@example.com',
+    company: 'Maulana Studio',
+    product: 'WhatsCRM Pro',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-02',
+    createdAt: '2025-03-12'
+  },
+  {
+    id: 'CUS012',
+    name: 'Nina Amelia',
+    phone: '6285312345678',
+    email: 'nina.amelia@example.com',
+    company: 'Amelia Fashion',
+    product: 'WhatsCRM Business',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-04',
+    createdAt: '2025-03-15'
+  },
+  {
+    id: 'CUS013',
+    name: 'Taufik Hidayat',
+    phone: '6282133344455',
+    email: 'taufik.hidayat@example.com',
+    company: 'Hidayat Tech',
+    product: 'WhatsCRM Pro',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-06',
+    createdAt: '2025-03-20'
+  },
+  {
+    id: 'CUS014',
+    name: 'Putri Anggraini',
+    phone: '6281344455566',
+    email: 'putri.anggraini@example.com',
+    company: 'Anggraini Foods',
+    product: 'WhatsCRM Basic',
+    subscriptionStatus: 'trial',
+    lastContact: '2025-11-03',
+    createdAt: '2025-03-25'
+  },
+  {
+    id: 'CUS015',
+    name: 'Rizal Fahmi',
+    phone: '6285277766655',
+    email: 'rizal.fahmi@example.com',
+    company: 'Fahmi Solution',
+    product: 'WhatsCRM Business',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-05',
+    createdAt: '2025-03-30'
+  },
+  {
+    id: 'CUS016',
+    name: 'Anisa Rahma',
+    phone: '6281233344455',
+    email: 'anisa.rahma@example.com',
+    company: 'Rahma Digital',
+    product: 'WhatsCRM Pro',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-06',
+    createdAt: '2025-04-01'
+  },
+  {
+    id: 'CUS017',
+    name: 'Yusuf Hamdi',
+    phone: '6282188776655',
+    email: 'yusuf.hamdi@example.com',
+    company: 'Hamdi Transport',
+    product: 'WhatsCRM Basic',
+    subscriptionStatus: 'trial',
+    lastContact: '2025-11-05',
+    createdAt: '2025-04-03'
+  },
+  {
+    id: 'CUS018',
+    name: 'Dina Larasati',
+    phone: '6281255566677',
+    email: 'dina.larasati@example.com',
+    company: 'Larasati Art',
+    product: 'WhatsCRM Business',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-04',
+    createdAt: '2025-04-05'
+  },
+  {
+    id: 'CUS019',
+    name: 'Fajar Nugroho',
+    phone: '6285288899900',
+    email: 'fajar.nugroho@example.com',
+    company: 'Nugroho Property',
+    product: 'WhatsCRM Pro',
+    subscriptionStatus: 'active',
+    lastContact: '2025-11-06',
+    createdAt: '2025-04-07'
+  },
+  {
+    id: 'CUS020',
+    name: 'Sari Melati',
+    phone: '6281277788866',
+    email: 'sari.melati@example.com',
+    company: 'Melati Craft',
+    product: 'WhatsCRM Basic',
+    subscriptionStatus: 'trial',
+    lastContact: '2025-11-05',
+    createdAt: '2025-04-09'
   }
-};
-
-export const dummyApbdStatistic = {
-  code: 200,
-  status: true,
-  message: 'Data statistik apbd',
-  data: {
-    perTahun: {
-      belanja: 50000000,
-      pendapatan: 990000000,
-      defisit: 940000000,
-      pengeluaran: 30000000,
-      pembiayaan: 30000000,
-      sisa_pembiayaan: 0
-    },
-    semua: [
-      {
-        id: 1,
-        nama_laporan: 'Laporan APBD Tahun 2023',
-        tahun: '2023',
-        belanja_pendapatan: {
-          belanja: 45000000,
-          pendapatan: 120000000
-        },
-        pembiayaan: {
-          pembiayaan: 25000000,
-          pengeluaran: 20000000
-        }
-      },
-      {
-        id: 2,
-        nama_laporan: 'Laporan APBD Tahun 2024',
-        tahun: '2024',
-        belanja_pendapatan: {
-          belanja: 52000000,
-          pendapatan: 85000000
-        },
-        pembiayaan: {
-          pembiayaan: 28000000,
-          pengeluaran: 25000000
-        }
-      },
-      {
-        id: 3,
-        nama_laporan: 'Laporan APBD Tahun 2025',
-        tahun: '2025',
-        belanja_pendapatan: {
-          belanja: 50000000,
-          pendapatan: 90000000
-        },
-        pembiayaan: {
-          pembiayaan: 30000000,
-          pengeluaran: 30000000
-        }
-      }
-    ],
-    pendapatan: [
-      {
-        id: 1,
-        nama_komponen: 'Pendapatan Transfer',
-        sumber_anggaran: 'pusat',
-        jumlah_anggaran: 900000000
-      }
-    ],
-    belanja: [
-      {
-        id: 4,
-        nama_komponen: 'Belanja Pegawai II',
-        sumber_anggaran: 'pusat',
-        jumlah_anggaran: 50000000
-      }
-    ]
-  }
-};
-
-export const staticTemplateAttr = [
-  'nama_lengkap',
-  'nik',
-  'hubungan_keluarga',
-  'nomor_kk',
-  'jenis_kelamin',
-  'agama',
-  'status_perkawinan',
-  'status_penduduk',
-  'alamat_kk',
-  'dusun_id',
-  'rt',
-  'rw',
-  'alamat_sebelumnya',
-  'nomor_telepon',
-  'email',
-  'tanggal_lahir',
-  'tempat_lahir',
-  'no_akta_kelahiran',
-  'pendidikan_kk',
-  'pendidikan_sedang_ditempuh',
-  'pekerjaan',
-  'nama_ayah',
-  'nama_ibu',
-  'nik_ayah',
-  'nik_ibu',
-  'nama_perangkat_desa',
-  'nip_perangkat_desa',
-  'jenis_kelamin_perangkat_desa',
-  'tempat_lahir_perangkat_desa',
-  'tanggal_lahir_perangkat_desa',
-  'jabatan_id_perangkat_desa',
-  'alamat_perangkat_desa',
-  'status_perangkat_desa',
-  'nama_jabatan_perangkat_desa'
 ];

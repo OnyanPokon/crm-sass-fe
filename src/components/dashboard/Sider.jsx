@@ -14,23 +14,23 @@ const DashboardSider = ({ collapsed, onCloseMenu }) => {
   const isDesktop = breakpoints.lg || breakpoints.xl || breakpoints.xxl;
 
   const menuItems = dashboardLink
-    .filter(({ permissions, roles }) => {
-      if (!user) return false;
+    // .filter(({ permissions, roles }) => {
+    //   if (!user) return false;
 
-      const hasPermission = permissions && permissions.length > 0;
-      const hasRole = roles && roles.length > 0;
+    //   const hasPermission = permissions && permissions.length > 0;
+    //   const hasRole = roles && roles.length > 0;
 
-      const isPublicPage = !hasPermission && !hasRole;
-      if (isPublicPage) return true;
+    //   const isPublicPage = !hasPermission && !hasRole;
+    //   if (isPublicPage) return true;
 
-      const roleSpecific = hasRole && !hasPermission;
-      if (roleSpecific) return user.eitherIs(...roles);
+    //   const roleSpecific = hasRole && !hasPermission;
+    //   if (roleSpecific) return user.eitherIs(...roles);
 
-      const permissionSpecific = hasPermission && !hasRole;
-      if (permissionSpecific) return user.eitherCan(...permissions);
+    //   const permissionSpecific = hasPermission && !hasRole;
+    //   if (permissionSpecific) return user.eitherCan(...permissions);
 
-      return user.eitherCan(...permissions) || user.eitherIs(...roles);
-    })
+    //   return user.eitherCan(...permissions) || user.eitherIs(...roles);
+    // })
     .map(({ label, children, icon: Icon }) => ({
       key: label,
       label: (

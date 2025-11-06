@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { DashboardFooter, DashboardSider } from '@/components';
 import { useAuth } from '@/hooks';
 import { LogoutOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons';
@@ -60,7 +61,7 @@ const Dashboard = () => {
           <div className="flex h-full w-full items-center justify-between px-4">
             <Button type="text" icon={<MenuOutlined />} onClick={() => setCollapsed(!collapsed)} color="default"></Button>
             <div className="flex items-center gap-x-2">
-              {!user ? (
+              {/* {!user ? (
                 <>
                   <Skeleton.Button active className="leading-4" size="small" />
                   <Skeleton.Avatar active className="leading-4" />
@@ -77,7 +78,7 @@ const Dashboard = () => {
                     </a>
                   </Dropdown>
                 </>
-              )}
+              )} */}
             </div>
           </div>
         </Header>
