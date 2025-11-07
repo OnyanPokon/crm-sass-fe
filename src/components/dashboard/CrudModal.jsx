@@ -2,7 +2,7 @@ import { CrudModalType, InputType } from '@/constants';
 import clientAsset from '@/utils/clientAsset';
 import strings from '@/utils/strings';
 import { DeleteOutlined, InboxOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Form, Input, InputNumber, Modal } from 'antd';
+import { Button, ColorPicker, DatePicker, Form, Input, InputNumber, Modal } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import Dragger from 'antd/es/upload/Dragger';
 import PropTypes from 'prop-types';
@@ -119,6 +119,9 @@ export default function CrudModal({ isModalOpen, data: initialData, close, title
             ))}
           </div>
         );
+
+      case InputType.COLOR_PICKER:
+        return <ColorPicker />;
 
       case InputType.MAP_PICKER:
         return <MapPicker form={form} handleValuesChange={handleValuesChange} realtimeData={realtimeData} />;

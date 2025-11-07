@@ -31,11 +31,16 @@ export default function DataHeader({ modul, subtitle, selectedData, onStore, onD
               Hapus {selectedData?.length || null} Pilihan
             </Button>
           )}
-          {user && user.can(CREATE, model) && onStore && (
+          {onStore && (
             <Button icon={<PlusOutlined />} type="primary" onClick={onStore}>
               Tambah
             </Button>
           )}
+          {/* {user && user.can(CREATE, model) && onStore && (
+            <Button icon={<PlusOutlined />} type="primary" onClick={onStore}>
+              Tambah
+            </Button>
+          )} */}
           {onImport && (
             <Button variant="solid" icon={<ImportOutlined />} onClick={onImport}>
               Import

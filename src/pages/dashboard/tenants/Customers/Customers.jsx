@@ -64,7 +64,7 @@ const Customers = () => {
 
   return (
     <Card>
-      <DataTableHeader onStore={onCreate} modul={Modul.PENGGUNA_TENANTS} />
+      <DataTableHeader onStore={onCreate} modul={Modul.USER_TENATNS} />
       <div className="w-full max-w-full overflow-x-auto">
         <DataTable data={custs} columns={column} />
       </div>

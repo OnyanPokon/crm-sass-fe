@@ -1,5 +1,8 @@
 enum Modul {
-  PENGGUNA_TENANTS = 'Pengguna'
+  LABEL = 'Label',
+  CATEGORY = 'Kategori',
+  USER_TENATNS = 'Pengguna',
+  BROADCAST = 'Broadcast'
 }
 
 export default Modul;

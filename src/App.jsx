@@ -8,6 +8,7 @@ import { RouterProvider } from 'react-router';
 import './index.css';
 import { flattenLandingLinks } from './utils/landingLink';
 import { Notfound } from './pages/result';
+import { ManageBroadcast } from './pages/dashboard';
 
 function App() {
   // const { isLoading, user } = useAuth();
@@ -57,7 +58,8 @@ function App() {
                   element: <Element />
                 };
               })
-            )
+            ),
+            { path: '/tenant/dashboard/broadcast/:id', element: <ManageBroadcast /> }
           ]
         },
         {

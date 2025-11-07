@@ -35,7 +35,11 @@ export const dashboardLink = [
   {
     label: 'Manajemen Pengguna',
     icon: UserOutlined,
-    children: [{ path: '/tenant/dashboard/customers', label: 'Pengguna', element: Dashboard.Customers }]
+    children: [
+      { path: '/tenant/dashboard/customers', label: 'Pelanggan', element: Dashboard.Customers },
+      { path: '/tenant/dashboard/customers_boards', label: 'Papan', element: Dashboard.CustBoards },
+      { path: '/tenant/dashboard/broadcast', label: 'BroadCast', element: Dashboard.BroadCast }
+    ]
   }
 ].map((item) => ({
   ...item,
