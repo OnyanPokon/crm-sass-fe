@@ -1,7 +1,7 @@
 import { PAGINATION_ALL } from '@/constants';
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-export const BASE_URL = `${baseUrl}/api`;
+export const BASE_URL = `${baseUrl}/v1`;
 
 const controllers = {};
 
@@ -96,10 +96,33 @@ function createCustomFetch(method) {
   };
 }
 
+async function customFetchFile(endpoint, token, options = {}) {
+  const response = await fetch(BASE_URL + endpoint, {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : ''
+    },
+    signal: options.signal
+  });
+
+  const blob = await response.blob();
+  const base64 = await blobToBase64(blob);
+  return { isSuccess: response.ok, data: base64 };
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
 export default {
   get: createCustomFetch('GET'),
   post: createCustomFetch('POST'),
   patch: createCustomFetch('PATCH'),
   put: createCustomFetch('PUT'),
-  delete: createCustomFetch('DELETE')
+  delete: createCustomFetch('DELETE'),
+  getFile: customFetchFile
 };

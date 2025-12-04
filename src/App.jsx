@@ -8,7 +8,7 @@ import { RouterProvider } from 'react-router';
 import './index.css';
 import { flattenLandingLinks } from './utils/landingLink';
 import { Notfound } from './pages/result';
-import { ManageBroadcast } from './pages/dashboard';
+import { CreateCampaign, ManageBroadcast } from './pages/dashboard';
 
 function App() {
   // const { isLoading, user } = useAuth();
@@ -59,7 +59,8 @@ function App() {
                 };
               })
             ),
-            { path: '/tenant/dashboard/broadcast/:id', element: <ManageBroadcast /> }
+            { path: '/tenant/dashboard/broadcast/:id', element: <ManageBroadcast /> },
+            { path: '/tenant/dashboard/campaigns/create', element: <CreateCampaign /> }
           ]
         },
         {

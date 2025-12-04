@@ -1,7 +1,7 @@
 import * as Auth from '@/pages/auth';
 import * as Dashboard from '@/pages/dashboard';
 import * as Landing from '@/pages/landing';
-import { DashboardOutlined, UserOutlined } from '@ant-design/icons';
+import { DashboardOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
 
 export const landingLink = [
   {
@@ -40,6 +40,21 @@ export const dashboardLink = [
       { path: '/tenant/dashboard/customers_boards', label: 'Papan', element: Dashboard.CustBoards },
       { path: '/tenant/dashboard/broadcast', label: 'BroadCast', element: Dashboard.BroadCast }
     ]
+  },
+  {
+    label: 'Campaign',
+    icon: UserOutlined,
+    children: [
+      { path: '/tenant/dashboard/recipients', label: 'Recipient', element: Dashboard.Recipients },
+      { path: '/tenant/dashboard/campaigns', label: 'Campaign', element: Dashboard.Campaigns },
+      { path: '/tenant/dashboard/inbox', label: 'Inbox', element: Dashboard.Inbox },
+      { path: '/tenant/dashboard/botnumbers', label: 'Bot Number', element: Dashboard.BotNumbers }
+    ]
+  },
+  {
+    label: 'Phones',
+    icon: PhoneOutlined,
+    children: [{ path: '/tenant/dashboard/phones', label: 'Phones', element: Dashboard.Phones }]
   }
 ].map((item) => ({
   ...item,

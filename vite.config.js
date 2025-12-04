@@ -13,5 +13,9 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom'
-  }
+  },
+  server: {
+    port: 3002, // 🔥 ubah sesuai keinginanmu
+    open: true, // opsional: otomatis buka browser
+  },
 });

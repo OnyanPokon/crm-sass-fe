@@ -15,7 +15,7 @@
     background-position: center;
     background-size: cover;
   }
-  b.news-text,
+  .news-text b.news-text,
   p.news-text {
     -webkit-line-clamp: 2;
     overflow: hidden;

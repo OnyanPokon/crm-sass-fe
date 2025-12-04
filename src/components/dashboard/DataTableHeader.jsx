@@ -4,12 +4,13 @@ import { DeleteOutlined, ExportOutlined, ImportOutlined, PlusOutlined } from '@a
 import { Button, Skeleton, Typography } from 'antd';
 import PropTypes from 'prop-types';
 
-const { CREATE, DELETE } = Action;
+const { DELETE } = Action;
 
 const { Title, Text } = Typography;
 
 export default function DataHeader({ modul, subtitle, selectedData, onStore, onDeleteBatch, model, children, onImport, onExport }) {
   const { user } = useAuth();
+  const something = true;
 
   return (
     <>
@@ -24,7 +25,8 @@ export default function DataHeader({ modul, subtitle, selectedData, onStore, onD
             subtitle
           ))}
       </div>
-      {(children || (user && user.eitherCan([DELETE, model], [CREATE, model]))) && (
+      {/* {(children || (user && user.eitherCan([DELETE, model], [CREATE, model]))) && ( */}
+      {something && (
         <div className="mb-6 flex flex-col-reverse justify-end gap-2 empty:hidden md:flex-row">
           {user && user.can(DELETE, model) && onDeleteBatch && (
             <Button className="me-auto" icon={<DeleteOutlined />} variant="solid" color="danger" disabled={!selectedData?.length} onClick={onDeleteBatch}>
