@@ -1,3 +1,4 @@
+import { staticPayloadCreatePhone } from '@/data/dummyData';
 import api from '@/utils/api';
 
 export default class PhonesService {
@@ -25,8 +26,23 @@ export default class PhonesService {
    *  data?: Phones[];
    * }>}
    * */
-  static async getDetail(id) {
+  static async getDetailPhone(id) {
     const response = await api.get(`/phone/${id}`);
+    if (!response.data) return response;
+    return { ...response, data: response.data };
+  }
+
+  /**
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  data?: Phones[];
+   * }>}
+   * */
+  static async getDetailProfile(id) {
+    const response = await api.get(`/phone/${id}/profile`);
     if (!response.data) return response;
     return { ...response, data: response.data };
   }
@@ -57,8 +73,50 @@ export default class PhonesService {
    *  errors?: { [key: string]: string[] };
    * }}
    */
-  static async store(data, token) {
-    return await api.post('/phone', { body: data, token });
+  static async store(data) {
+    return await api.post('/phone', { body: { ...data, config: { ...staticPayloadCreatePhone } } });
+  }
+
+  /**
+   * @param {Phones} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async storeDisplayName(data, id) {
+    return await api.post(`/phone/${id}/profile/name`, { body: data });
+  }
+
+  /**
+   * @param {Phones} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async storeDisplayStatus(data, id) {
+    return await api.post(`/phone/${id}/profile/status`, { body: data });
+  }
+
+  /**
+   * @param {Phones} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async storeDisplayPicture(data, id, file) {
+    return await api.post(`/phone/${id}/profile/picture`, { body: data, file: { file: file } });
   }
 
   /**

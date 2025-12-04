@@ -131,7 +131,7 @@ export default function CrudModal({ isModalOpen, data: initialData, close, title
   };
 
   return (
-    <Modal title={type !== CrudModalType.CONFIRM_DELETE ? title : ''} open={isModalOpen} onClose={close} onCancel={close} footer={null} {...props}>
+    <Modal zIndex={2000} title={type !== CrudModalType.CONFIRM_DELETE ? title : ''} open={isModalOpen} onClose={close} onCancel={close} footer={null} {...props}>
       {type === CrudModalType.CONFIRM_DELETE ? (
         <div className="flex flex-col items-center justify-center gap-y-4">
           <DeleteOutlined style={{ fontSize: '32px' }} />

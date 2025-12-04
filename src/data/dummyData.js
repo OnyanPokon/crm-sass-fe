@@ -651,3 +651,35 @@ export const botList = [
     is_active: true
   }
 ];
+
+export const staticPayloadCreatePhone = {
+  metadata: {
+    'user.id': '123',
+    'user.email': 'email@example.com'
+  },
+  proxy: null,
+  debug: false,
+  ignore: {
+    status: null,
+    groups: null,
+    channels: null
+  },
+  noweb: {
+    store: {
+      enabled: true,
+      fullSync: false
+    }
+  },
+  webjs: {
+    tagsEventsOn: false
+  },
+  webhooks: [
+    {
+      url: 'https://webhook.site/11111111-1111-1111-1111-11111111',
+      events: ['message', 'session.status'],
+      hmac: null,
+      retries: null,
+      customHeaders: null
+    }
+  ]
+};

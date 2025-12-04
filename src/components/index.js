@@ -7,6 +7,7 @@ export { default as DataTable } from './dashboard/DataTable';
 export { default as DataTableHeader } from './dashboard/DataTableHeader';
 export { default as ConversationList } from './dashboard/ConversationList';
 export { default as ChatRoom } from './dashboard/ChatRoom';
+export { default as StatusBadge } from './dashboard/StatusBadge';
 
 export { default as Navbar } from './landing/Navbar';
 export { default as Footer } from './landing/Footer';

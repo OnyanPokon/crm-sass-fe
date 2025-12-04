@@ -1,3 +1,5 @@
+import { useService } from '@/hooks';
+import { MessagesService } from '@/services';
 import { useChatStore } from '@/store/chat.store';
 import { CommentOutlined, PaperClipOutlined, SendOutlined } from '@ant-design/icons';
 import { Avatar, Button, Form, Image, Input, Upload } from 'antd';
@@ -8,6 +10,9 @@ const ChatRoom = () => {
   const [previewOpen, setPreviewOpen] = React.useState(false);
   const [previewImage, setPreviewImage] = React.useState('');
   const [form] = Form.useForm();
+
+  // eslint-disable-next-line no-unused-vars
+  const sendText = useService(MessagesService.sendText);
 
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -42,12 +47,7 @@ const ChatRoom = () => {
     );
 
   const onFinish = (values) => {
-    const payload = {
-      ...values,
-      files: fileList.map((f) => f.originFileObj || f.url)
-    };
-
-    console.log('SUBMIT PAYLOAD:', payload);
+    console.log(values);
   };
 
   return (
@@ -60,7 +60,7 @@ const ChatRoom = () => {
       </div>
       <div className="h-full w-full">
         <div className="flex h-full w-full flex-col overflow-auto pb-12 pt-20">
-          <div className="flex w-full flex-col items-start gap-y-2 px-6">
+          {/* <div className="flex w-full flex-col items-start gap-y-2 px-6">
             <div className="w-fit max-w-lg rounded-lg bg-gray-500 p-4 text-justify text-xs text-white">
               orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It
               has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
@@ -71,7 +71,7 @@ const ChatRoom = () => {
           <div className="flex w-full flex-col items-end gap-y-2 px-6 text-white">
             <div className="w-fit max-w-lg rounded-lg bg-blue-500 p-4 text-justify text-xs text-white">orem Ipsum is simply dummy text of the printing and typesetting industry.</div>
             <span className="px-2 text-xs text-gray-400">10:21</span>
-          </div>
+          </div> */}
         </div>
       </div>
       <Form form={form} onFinish={onFinish} className="absolute bottom-0 w-full rounded-b-lg bg-white p-4">
@@ -86,11 +86,11 @@ const ChatRoom = () => {
           </Form.Item>
         </div>
 
-        <Form.Item style={{ margin: 0 }} name="files">
-          <Upload multiple beforeUpload={() => false} fileList={fileList} onChange={({ fileList }) => setFileList(fileList)} onPreview={handlePreview} showUploadList={false}>
-            <Button icon={<PaperClipOutlined />} size="large" />
-          </Upload>
-        </Form.Item>
+        {/* <Form.Item style={{ margin: 0 }} name="files"> */}
+        <Upload multiple beforeUpload={() => false} fileList={fileList} onChange={({ fileList }) => setFileList(fileList)} onPreview={handlePreview} showUploadList={false}>
+          <Button icon={<PaperClipOutlined />} size="large" />
+        </Upload>
+        {/* </Form.Item> */}
 
         {previewImage && (
           <Image
