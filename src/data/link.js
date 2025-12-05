@@ -47,7 +47,6 @@ export const dashboardLink = [
     children: [
       { path: '/tenant/dashboard/recipients', label: 'Recipient', element: Dashboard.Recipients },
       { path: '/tenant/dashboard/campaigns', label: 'Campaign', element: Dashboard.Campaigns },
-      { path: '/tenant/dashboard/inbox', label: 'Inbox', element: Dashboard.Inbox },
       { path: '/tenant/dashboard/botnumbers', label: 'Bot Number', element: Dashboard.BotNumbers }
     ]
   },

@@ -17,6 +17,35 @@ export default class MessagesService {
   }
 
   /**
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  data?: Messages[];
+   * }>}
+   * */
+  static async getAllMessageInActiveConversation(id, chatId) {
+    const response = await api.get(`/message/${id}/chats/${chatId}/messages`);
+    if (!response.data) return response;
+    return { ...response, data: response.data };
+  }
+
+  /**
+   * @param {Messages} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async getAllChatOverview({data, id}) {
+    return await api.post(`/message/${id}/chats/overview`, { body: data });
+  }
+
+  /**
    * @param {Messages} data
    * @param {string} token
    * @returns {Promise<{

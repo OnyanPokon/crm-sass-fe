@@ -9,6 +9,7 @@ import {
   ClockCircleOutlined,
   EditOutlined,
   ExclamationCircleFilled,
+  InboxOutlined,
   LogoutOutlined,
   PauseCircleFilled,
   PauseOutlined,
@@ -22,8 +23,10 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Badge, Button, Card, Modal, Spin, Typography } from 'antd';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Phones = () => {
+  const navigate = useNavigate()
   const crudModal = useCrudModal();
   const { error, success } = useNotification();
   const { execute, ...getAllPhones } = useService(PhonesService.getAll);
@@ -170,7 +173,7 @@ const Phones = () => {
 
               let profileRes = { isSuccess: true, data: null };
 
-              if (item.session.status === 'WORKING' || item.session.status === 'STARTING') {
+              if (item.session.status === 'WORKING') {
                 profileRes = await fetchDetailProfile(item.id);
 
                 if (!profileRes.isSuccess) return error('Gagal', profileRes.message);
@@ -204,6 +207,7 @@ const Phones = () => {
         open={modal.isOpen}
         onCancel={() => {
           setModal({ isOpen: false, phoneData: null });
+          fetchAllPhones()
           setQrCode(null);
         }}
         footer={null}
@@ -213,7 +217,7 @@ const Phones = () => {
           <div className="relative h-24 w-full rounded-lg bg-blue-500">
             <div className="group absolute -bottom-6 left-4 cursor-pointer">
               {/* Avatar */}
-              <Avatar size={86} src={modal.phoneData?.picture ? modal.phoneData?.picture : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} style={{ backgroundColor: '#fff' }} className="rounded-full" />
+              <Avatar size={86} src={modal.profileData?.picture ? modal.profileData?.picture : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} style={{ backgroundColor: '#fff' }} className="rounded-full" />
 
               <button
                 onClick={() => {
@@ -308,6 +312,7 @@ const Phones = () => {
                             const { isSuccess, data } = await fetchDetailPhone(modal.phoneData.id);
                             if (isSuccess) {
                               setModal({ isOpen: true, phoneData: data });
+                              fetchAllPhones()
                               setQrCode(null);
                             }
                           }}
@@ -429,6 +434,16 @@ const Phones = () => {
                         />
                       </div>
                       <hr className="my-2 w-full" />
+                      <Button
+                        icon={<InboxOutlined />}
+                        shape='round'
+                        color='primary'
+                        size='large'
+                        variant='filled'
+                        onClick={() => navigate('/tenant/dashboard/inbox/' + modal.phoneData.id)}
+                      >
+                        To Inbox
+                      </Button>
                     </>
                   )}
                 </div>
