@@ -33,18 +33,10 @@ export const dashboardLink = [
     children: [{ path: '/tenant/dashboard', label: 'Dashboard', element: Dashboard.TenantDashboard }]
   },
   {
-    label: 'Manajemen Pengguna',
-    icon: UserOutlined,
-    children: [
-      { path: '/tenant/dashboard/customers', label: 'Pelanggan', element: Dashboard.Customers },
-      { path: '/tenant/dashboard/customers_boards', label: 'Papan', element: Dashboard.CustBoards },
-      { path: '/tenant/dashboard/broadcast', label: 'BroadCast', element: Dashboard.BroadCast }
-    ]
-  },
-  {
     label: 'Campaign',
     icon: UserOutlined,
     children: [
+      { path: '/tenant/dashboard/recipient_types', label: 'Recipient Types', element: Dashboard.RecipientTypes },
       { path: '/tenant/dashboard/recipients', label: 'Recipient', element: Dashboard.Recipients },
       { path: '/tenant/dashboard/campaigns', label: 'Campaign', element: Dashboard.Campaigns },
       { path: '/tenant/dashboard/botnumbers', label: 'Bot Number', element: Dashboard.BotNumbers }

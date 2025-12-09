@@ -186,7 +186,7 @@ export default class PhonesService {
    * }>}
    */
   static async delete(id, token) {
-    return await api.delete(`/phone/delete/${id}`, { token });
+    return await api.delete(`/phone/${id}`, { token });
   }
 
   /**

@@ -12,3 +12,4 @@ export { default as CreateCampaign } from './tenants/Campaigns/Create';
 export { default as Inbox } from './tenants/Inbox/Inbox';
 export { default as BotNumbers } from './tenants/BotNumbers/BotNumbers';
 export { default as Phones } from './tenants/Phones/Phones';
+export { default as RecipientTypes } from './tenants/Recipients/RecipientTypes';

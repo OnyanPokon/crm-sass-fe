@@ -41,7 +41,7 @@ export default class MessagesService {
    *  errors?: { [key: string]: string[] };
    * }}
    */
-  static async getAllChatOverview({data, id}) {
+  static async getAllChatOverview({ data, id }) {
     return await api.post(`/message/${id}/chats/overview`, { body: data });
   }
 
@@ -57,6 +57,48 @@ export default class MessagesService {
    */
   static async sendText(data, id) {
     return await api.post(`/message/${id}/text`, { body: data });
+  }
+
+  /**
+   * @param {Messages} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async seenText(data, id) {
+    return await api.post(`/message/${id}/seen`, { body: data });
+  }
+
+  /**
+   * @param {Messages} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async sendImage(data, id, file) {
+    return await api.post(`/message/${id}/image`, { body: data, file: { file: file } });
+  }
+
+  /**
+   * @param {Messages} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async sendFile(data, id, file) {
+    return await api.post(`/message/${id}/file`, { body: data, file: { file: file } });
   }
 
   /**

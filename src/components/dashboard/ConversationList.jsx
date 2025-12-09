@@ -15,54 +15,41 @@ const ConversationList = ({ phoneId }) => {
   const { execute: fetchChatOverview } = useService(MessagesService.getAllChatOverview);
 
   React.useEffect(() => {
+    if (conversations.length > 0) return; // ⛔ CEGAH OVERWRITE
+
     fetchChatOverview({
       data: { pagination: { limit: 20, offset: 0 } },
-      id: phoneId,
+      id: phoneId
     }).then((res) => {
       if (res?.data) {
         setConversations(res.data);
       }
     });
-  }, [fetchChatOverview, phoneId, setConversations]);
-
+  }, [conversations.length, fetchChatOverview, phoneId, setConversations]);
 
   return (
     <div className="flex w-full flex-col gap-y-1 bg-white">
       {conversations.map((item) => (
-        <div
-          key={item.id}
-          className={`flex w-full items-center hover:bg-gray-100 ${activeConversation?.id === item.id ? "bg-gray-100" : ""
-            } rounded-md py-3 px-3 transition-colors hover:cursor-pointer`}
-          onClick={() => setActiveConversation(item)}
-        >
+        <div key={item.id} className={`flex w-full items-center hover:bg-gray-100 ${activeConversation?.id === item.id ? 'bg-gray-100' : ''} rounded-md px-3 py-3 transition-colors hover:cursor-pointer`} onClick={() => setActiveConversation(item)}>
           <div className="flex flex-1 items-center gap-x-2 overflow-hidden">
             <Badge size="small">
               <Avatar size={50} src={item.picture} />
             </Badge>
 
             <div className="flex flex-col overflow-hidden">
-              <div className="inline-flex items-center gap-x-1 font-semibold truncate">
+              <div className="inline-flex items-center gap-x-1 truncate font-semibold">
                 <WhatsAppOutlined className="text-green-500" />
-                {
-                  item.lastMessage.from.endsWith("lid")
-                    ? item.lastMessage._data.key.remoteJidAlt ? item.lastMessage._data.key.remoteJidAlt.split("@")[0] : '-'
-                    : item.lastMessage.from.split("@")[0]
-                }
+                {item.lastMessage.from.endsWith('lid') ? (item.lastMessage._data.key.remoteJidAlt ? item.lastMessage._data.key.remoteJidAlt.split('@')[0] : '-') : item.lastMessage.from.split('@')[0]}
               </div>
 
-              <span className="w-full truncate text-sm">
-                {item.lastMessage.body}
-              </span>
+              <span className="w-full truncate text-sm">{item.lastMessage.body}</span>
             </div>
           </div>
 
-          <div className="ml-2 min-w-[45px] text-right text-xs text-gray-500">
-            17:51
-          </div>
+          <div className="ml-2 min-w-[45px] text-right text-xs text-gray-500">17:51</div>
         </div>
       ))}
     </div>
-
   );
 };
 

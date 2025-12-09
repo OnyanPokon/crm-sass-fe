@@ -11,7 +11,6 @@ const Inbox = () => {
   const activeConversation = useChatStore((state) => state.activeConversation);
   const setActiveConversation = useChatStore((state) => state.setActiveConversation);
 
-
   const [activeTab, setActiveTab] = React.useState('contact');
 
   const TabItems = [
@@ -39,7 +38,7 @@ const Inbox = () => {
           <div className="flex h-full w-full flex-col overflow-hidden rounded-lg bg-white shadow-sm">
             <div className="w-full border-b border-gray-100 bg-white p-4">
               <Tabs items={TabItems} activeKey={activeTab} onChange={(key) => setActiveTab(key)} />
-              <Input.Search placeholder='Cari Pesan' />
+              <Input.Search placeholder="Cari Pesan" />
             </div>
 
             <div className="mt-2 flex-1 overflow-y-auto px-4">

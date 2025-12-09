@@ -7,6 +7,7 @@ import {
   CheckOutlined,
   ClockCircleFilled,
   ClockCircleOutlined,
+  DeleteOutlined,
   EditOutlined,
   ExclamationCircleFilled,
   InboxOutlined,
@@ -26,7 +27,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Phones = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const crudModal = useCrudModal();
   const { error, success } = useNotification();
   const { execute, ...getAllPhones } = useService(PhonesService.getAll);
@@ -37,6 +38,7 @@ const Phones = () => {
   const stopSession = useService(PhonesService.stopSession);
   const logoutSession = useService(PhonesService.logoutSession);
   const storePhone = useService(PhonesService.store);
+  const deletePhone = useService(PhonesService.delete);
   const storeDisplayName = useService(PhonesService.storeDisplayName);
   const storeDisplayStatus = useService(PhonesService.storeDisplayStatus);
   const storeDisplayPicture = useService(PhonesService.storeDisplayPicture);
@@ -207,7 +209,7 @@ const Phones = () => {
         open={modal.isOpen}
         onCancel={() => {
           setModal({ isOpen: false, phoneData: null });
-          fetchAllPhones()
+          fetchAllPhones();
           setQrCode(null);
         }}
         footer={null}
@@ -284,65 +286,85 @@ const Phones = () => {
                       {sessionStatus === 'FAILED' && <StatusBadge color="red" icon={<WarningFilled />} text="Failed" />}
                     </div>
 
-                    {isWaiting && (
-                      <div className="inline-flex items-center gap-x-2">
-                        <Button
-                          shape="round"
-                          icon={<QrcodeOutlined />}
-                          color="primary"
-                          variant="solid"
-                          loading={getAllGenerateQr.isLoading}
-                          onClick={async () => {
-                            const res = await generateQr(modal.phoneData.id);
-                            if (res?.data) {
-                              setQrCode(res.data);
-                            }
-                          }}
-                        >
-                          Generate QR
-                        </Button>
+                    <div className="inline-flex items-center gap-x-2">
+                      {isWaiting && (
+                        <>
+                          <Button
+                            shape="round"
+                            icon={<QrcodeOutlined />}
+                            color="primary"
+                            variant="solid"
+                            loading={getAllGenerateQr.isLoading}
+                            onClick={async () => {
+                              const res = await generateQr(modal.phoneData.id);
+                              if (res?.data) {
+                                setQrCode(res.data);
+                              }
+                            }}
+                          >
+                            Generate QR
+                          </Button>
 
-                        <Button
-                          shape="circle"
-                          icon={<ReloadOutlined />}
-                          color="primary"
-                          variant="outlined"
-                          loading={getDetailPhone.isLoading}
-                          onClick={async () => {
-                            const { isSuccess, data } = await fetchDetailPhone(modal.phoneData.id);
-                            if (isSuccess) {
-                              setModal({ isOpen: true, phoneData: data });
-                              fetchAllPhones()
-                              setQrCode(null);
-                            }
-                          }}
-                        />
-                      </div>
-                    )}
+                          <Button
+                            shape="circle"
+                            icon={<ReloadOutlined />}
+                            color="primary"
+                            variant="outlined"
+                            loading={getDetailPhone.isLoading}
+                            onClick={async () => {
+                              const { isSuccess, data } = await fetchDetailPhone(modal.phoneData.id);
+                              if (isSuccess) {
+                                setModal({ isOpen: true, phoneData: data });
+                                fetchAllPhones();
+                                setQrCode(null);
+                              }
+                            }}
+                          />
+                        </>
+                      )}
 
-                    {sessionStatus === 'WORKING' && (
-                      <div className="inline-flex items-center gap-x-2">
-                        <Button shape="round" icon={<PauseOutlined />} variant="solid" loading={stopSession.isLoading} onClick={() => handleStopSession(modal.phoneData.id)}>
-                          Stop
-                        </Button>
+                      {sessionStatus === 'WORKING' && (
+                        <>
+                          <Button shape="round" icon={<PauseOutlined />} variant="solid" loading={stopSession.isLoading} onClick={() => handleStopSession(modal.phoneData.id)}>
+                            Stop
+                          </Button>
 
-                        <Button shape="round" icon={<LogoutOutlined />} color="danger" variant="solid" loading={logoutSession.isLoading} onClick={() => handleLogoutSession(modal.phoneData.id)}>
-                          Logout
-                        </Button>
-                      </div>
-                    )}
+                          <Button shape="round" icon={<LogoutOutlined />} color="danger" variant="solid" loading={logoutSession.isLoading} onClick={() => handleLogoutSession(modal.phoneData.id)}>
+                            Logout
+                          </Button>
+                        </>
+                      )}
 
-                    {sessionStatus === 'STOPPED' && (
-                      <div className="inline-flex items-center gap-x-2">
-                        <Button shape="round" icon={<PlayCircleOutlined />} color="green" variant="solid" loading={startSession.isLoading} onClick={() => handleStartSession(modal.phoneData.id)}>
-                          Start
-                        </Button>
+                      {sessionStatus === 'STOPPED' && (
+                        <>
+                          <Button shape="round" icon={<PlayCircleOutlined />} color="green" variant="solid" loading={startSession.isLoading} onClick={() => handleStartSession(modal.phoneData.id)}>
+                            Start
+                          </Button>
 
-                        <Button shape="round" icon={<LogoutOutlined />} color="danger" variant="solid" loading={logoutSession.isLoading} onClick={() => handleLogoutSession(modal.phoneData.id)}>
-                          Logout
-                        </Button>
-                      </div>
-                    )}
+                          <Button shape="round" icon={<LogoutOutlined />} color="danger" variant="solid" loading={logoutSession.isLoading} onClick={() => handleLogoutSession(modal.phoneData.id)}>
+                            Logout
+                          </Button>
+                        </>
+                      )}
+                      <Button
+                        shape="circle"
+                        icon={<DeleteOutlined />}
+                        color="danger"
+                        variant="outlined"
+                        loading={deletePhone.isLoading}
+                        onClick={async () => {
+                          const { isSuccess, message } = await deletePhone.execute(modal.phoneData.id);
+                          if (isSuccess) {
+                            setModal({ isOpen: false, phoneData: null, profileData: null });
+                            fetchAllPhones();
+                            setQrCode(null);
+                          } else {
+                            error('Gagal', message);
+                          }
+                          return isSuccess;
+                        }}
+                      />
+                    </div>
                   </div>
 
                   <span className="inline-flex items-center gap-x-1 text-xs text-gray-500">
@@ -434,14 +456,7 @@ const Phones = () => {
                         />
                       </div>
                       <hr className="my-2 w-full" />
-                      <Button
-                        icon={<InboxOutlined />}
-                        shape='round'
-                        color='primary'
-                        size='large'
-                        variant='filled'
-                        onClick={() => navigate('/tenant/dashboard/inbox/' + modal.phoneData.id)}
-                      >
+                      <Button icon={<InboxOutlined />} shape="round" color="primary" size="large" variant="filled" onClick={() => navigate('/tenant/dashboard/inbox/' + modal.phoneData.id)}>
                         To Inbox
                       </Button>
                     </>
