@@ -3,3 +3,4 @@ export { default as User } from './User';
 export { default as Model } from './Model';
 export { default as RecipientTypes } from './RecipientTypes';
 export { default as Recipients } from './Recipients';
+export { default as Statuses } from './Statuses';

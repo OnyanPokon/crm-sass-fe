@@ -39,6 +39,7 @@ export const dashboardLink = [
       { path: '/tenant/dashboard/recipient_types', label: 'Recipient Types', element: Dashboard.RecipientTypes },
       { path: '/tenant/dashboard/recipients', label: 'Recipient', element: Dashboard.Recipients },
       { path: '/tenant/dashboard/campaigns', label: 'Campaign', element: Dashboard.Campaigns },
+      { path: '/tenant/dashboard/statuses', label: 'Status', element: Dashboard.Statuses },
       { path: '/tenant/dashboard/botnumbers', label: 'Bot Number', element: Dashboard.BotNumbers }
     ]
   },

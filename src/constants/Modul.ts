@@ -6,7 +6,8 @@ enum Modul {
   RECIPIENTS = 'Recipient',
   CAMPAIGNS = 'Campaign',
   BOT_NUMBERS = 'Kontak Bot',
-  RECIPIENTTYPES = 'Tipe Recipient'
+  RECIPIENTTYPES = 'Tipe Recipient',
+  STATUS = 'Status'
 }
 
 export default Modul;

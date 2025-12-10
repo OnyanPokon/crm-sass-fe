@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Recipients } from '@/models';
 import api from '@/utils/api';
 
@@ -11,8 +12,9 @@ export default class RecipientsService {
    *  data?: Recipients[];
    * }>}
    * */
-  static async getAll(token) {
-    const response = await api.get('/recipient', { token });
+  static async getAll({ ...filters }) {
+    const params = Object.fromEntries(Object.entries(filters).filter(([_, value]) => value !== null && value !== undefined && value !== ''));
+    const response = await api.get('/recipient', { params });
     if (!response.data) return response;
     return { ...response, data: Recipients.fromApiData(response.data) };
   }
@@ -27,8 +29,8 @@ export default class RecipientsService {
    *  errors?: { [key: string]: string[] };
    * }}
    */
-  static async store(data, token) {
-    return await api.post('/recipient', { body: Recipients.toApiData(data), token });
+  static async store(data) {
+    return await api.post('/recipient', { body: Recipients.toApiData(data) });
   }
 
   /**
@@ -42,8 +44,8 @@ export default class RecipientsService {
    *  errors?: { [key: string]: string[] };
    * }>}
    */
-  static async update(id, data, token) {
-    return await api.patch(`/recipient/${id}`, { body: Recipients.toApiData(data), token });
+  static async update(id, data) {
+    return await api.patch(`/recipient/${id}`, { body: Recipients.toApiData(data) });
   }
 
   /**

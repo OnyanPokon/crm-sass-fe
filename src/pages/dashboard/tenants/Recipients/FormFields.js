@@ -20,7 +20,7 @@ export const recipientTypesFormFields = () => [
     rules: [
       {
         required: true,
-        message: `Deskripsi ${Modul.APBD_ITEM} harus diisi`
+        message: `Deskripsi ${Modul.RECIPIENTTYPES} harus diisi`
       }
     ]
   }
