@@ -47,7 +47,7 @@ const Recipients = () => {
       searchable: true
     },
     {
-      title: 'Number',
+      title: 'Tipe Recipient',
       dataIndex: ['id_tipe_recipient', 'nama'],
       sorter: (a, b) => a.id_tipe_recipient.nama.length - b.id_tipe_recipient.nama.length,
       searchable: true

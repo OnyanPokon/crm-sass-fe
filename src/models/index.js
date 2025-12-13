@@ -6,3 +6,4 @@ export { default as Recipients } from './Recipients';
 export { default as Statuses } from './Statuses';
 export { default as TemplateMessages } from './TemplateMessages';
 export { default as SubTemplates } from './SubTemplates';
+export { default as Messages } from './Messages';

@@ -1,3 +1,4 @@
+import { Messages } from '@/models';
 import api from '@/utils/api';
 
 export default class MessagesService {
@@ -13,7 +14,7 @@ export default class MessagesService {
   static async getAll(token) {
     const response = await api.get('/message', { token });
     if (!response.data) return response;
-    return { ...response, data: response.data };
+    return { ...response, data: Messages.fromApiData(response.data) };
   }
 
   /**
@@ -112,7 +113,7 @@ export default class MessagesService {
    * }}
    */
   static async store(data, token) {
-    return await api.post('/message', { body: data, token });
+    return await api.post('/message', { body: Messages.toApiData(data), token });
   }
 
   /**

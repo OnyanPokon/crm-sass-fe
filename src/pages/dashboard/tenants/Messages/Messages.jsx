@@ -1,28 +1,28 @@
 import { DataTable } from '@/components';
 import Modul from '@/constants/Modul';
 import { useCrudModal, useNotification, usePagination, useService } from '@/hooks';
-import { AudioOutlined, ClockCircleOutlined, DeleteOutlined, DownOutlined, ExclamationOutlined, FileImageOutlined, FontSizeOutlined, PlusOutlined, ScheduleOutlined, ThunderboltOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Button, Card, Dropdown, Image, Space, Typography } from 'antd';
+import { ClockCircleOutlined, DeleteOutlined, ExclamationOutlined, PlusOutlined, ScheduleOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { Button, Card, Image, Space, Typography } from 'antd';
 import React from 'react';
-import { statusFormFields } from './FormFields';
-import { PhonesService, StatusesService } from '@/services';
 import { InputType } from '@/constants';
 import dayjs from 'dayjs';
 import dateFormatter from '@/utils/dateFormatter';
+import { MessagesService, PhonesService, RecipientsService, RecipientTypesService, TemplateMessagesService } from '@/services';
+import { messageFormFields } from './FormFields';
 
-const Statuses = () => {
+const Messages = () => {
   const modal = useCrudModal();
   const { success, error } = useNotification();
-  const { execute, ...getAllStatuses } = useService(StatusesService.getAll);
-  const { execute: fetchAllPhones, ...getAllPhones } = useService(PhonesService.getAll);
-  const storeStatusText = useService(StatusesService.storeText);
-  const storeStatusImage = useService(StatusesService.storeImage);
-  const storeStatusVoice = useService(StatusesService.storeVoice);
-  const storeStatusVideo = useService(StatusesService.storeVideo);
-  const deleteStatus = useService(StatusesService.delete);
-  const pagination = usePagination({ totalData: getAllStatuses.totalData });
+  const { execute, ...getAllMessages } = useService(MessagesService.getAll);
+  const { execute: fetchTemplateMessages, ...getAllTemplateMessages } = useService(TemplateMessagesService.getAll);
+  const { execute: fetchRecipientTypes, ...getAllRecipientTypes } = useService(RecipientTypesService.getAll);
+  const { execute: fetchRecipients, ...getAllRecipients } = useService(RecipientsService.getAll);
+  const { execute: fetchPhones, ...getAllPhones } = useService(PhonesService.getAll);
+  const deleteMessage = useService(MessagesService.delete);
+  const storeMessage = useService(MessagesService.store);
+  const pagination = usePagination({ totalData: getAllMessages.totalData });
 
-  const fetchStatuses = React.useCallback(() => {
+  const fetchMessages = React.useCallback(() => {
     execute({
       page: pagination.page,
       perPage: pagination.perPage
@@ -30,37 +30,20 @@ const Statuses = () => {
   }, [execute, pagination.page, pagination.perPage]);
 
   React.useEffect(() => {
-    fetchStatuses();
-    fetchAllPhones();
-  }, [fetchAllPhones, fetchStatuses]);
+    fetchMessages();
+    fetchRecipientTypes({ page: 1, perPage: 99999 });
+    fetchTemplateMessages({ page: 1, perPage: 99999 });
+    fetchRecipients({ page: 1, perPage: 99999 });
+    fetchPhones();
+  }, [fetchMessages, fetchPhones, fetchRecipientTypes, fetchRecipients, fetchTemplateMessages]);
 
-  const statuses = getAllStatuses.data ?? [];
+  const messages = getAllMessages.data ?? [];
+  const recipientTypes = getAllRecipientTypes.data ?? [];
+  const templateMessages = getAllTemplateMessages.data ?? [];
+  const recipients = getAllRecipients.data ?? [];
   const phones = getAllPhones.data ?? [];
 
-  const menuItems = [
-    {
-      label: 'Text',
-      key: 'text',
-      icon: <FontSizeOutlined />
-    },
-    {
-      label: 'Gambar',
-      key: 'image',
-      icon: <FileImageOutlined />
-    },
-    {
-      label: 'Suara',
-      key: 'voice',
-      icon: <AudioOutlined />
-    },
-    {
-      label: 'Video',
-      key: 'video',
-      icon: <VideoCameraOutlined />
-    }
-  ];
-
-  const handleMenuClick = (e) => {
+  const handleMenuClick = () => {
     modal.show.paragraph({
       data: {
         content: (
@@ -69,39 +52,39 @@ const Statuses = () => {
               className="h-full w-full"
               hoverable
               onClick={() => {
-                onCreate(e.key, 'instant');
+                onCreate('instant');
               }}
             >
               <div className="flex h-full flex-col items-center justify-center gap-y-2">
                 <ThunderboltOutlined className="mb-2 text-3xl" />
                 <span className="text-sm font-semibold">Instan</span>
-                <small className="text-center text-gray-500">Buat Status Instan.</small>
+                <small className="text-center text-gray-500">Kirim pesan Instan.</small>
               </div>
             </Card>
             <Card
               className="h-full w-full"
               hoverable
               onClick={() => {
-                onCreate(e.key, 'terjadwal');
+                onCreate('terjadwal');
               }}
             >
               <div className="flex h-full flex-col items-center justify-center gap-y-2">
                 <ClockCircleOutlined className="mb-2 text-3xl" />
                 <span className="text-sm font-semibold">Terjadwal</span>
-                <small className="text-center text-gray-500">Buat status untuk nanti.</small>
+                <small className="text-center text-gray-500">Kirim pesan untuk nanti.</small>
               </div>
             </Card>
             <Card
               className="h-full w-full"
               hoverable
               onClick={() => {
-                onCreate(e.key, 'rentang');
+                onCreate('rentang');
               }}
             >
               <div className="flex h-full flex-col items-center justify-center gap-y-2">
                 <ScheduleOutlined className="mb-2 text-3xl" />
                 <span className="text-sm font-semibold">Rentang</span>
-                <small className="text-center text-gray-500">Buat status rentang waktu.</small>
+                <small className="text-center text-gray-500">Kirim pesan rentang waktu.</small>
               </div>
             </Card>
           </div>
@@ -110,60 +93,8 @@ const Statuses = () => {
     });
   };
 
-  const onCreate = (type, time) => {
-    let fields = [...statusFormFields({ options: { phones: phones } })];
-    switch (type) {
-      case 'image':
-        fields.push({
-          label: 'Upload Gambar',
-          name: 'file',
-          type: InputType.UPLOAD,
-          max: 1,
-          beforeUpload: () => false,
-          getFileList: (data) => [
-            {
-              url: data?.file,
-              name: data?.name
-            }
-          ],
-          accept: ['.png', '.jpg', '.jpeg']
-        });
-        break;
-
-      case 'voice':
-        fields.push({
-          label: 'Upload Audio',
-          name: 'file',
-          type: InputType.UPLOAD,
-          max: 1,
-          beforeUpload: () => false,
-          getFileList: (data) => [
-            {
-              url: data?.file,
-              name: data?.name
-            }
-          ],
-          accept: ['.mp3', '.wav', '.ogg']
-        });
-        break;
-
-      case 'video':
-        fields.push({
-          label: 'Upload Video',
-          name: 'file',
-          type: InputType.UPLOAD,
-          max: 1,
-          beforeUpload: () => false,
-          getFileList: (data) => [
-            {
-              url: data?.file,
-              name: data?.name
-            }
-          ],
-          accept: ['.mp4', '.mov', '.mkv']
-        });
-        break;
-    }
+  const onCreate = (time) => {
+    let fields = [...messageFormFields({ options: { recipientTypes, templateMessages, recipients, phones } })];
     switch (time) {
       case 'terjadwal':
         fields.push({
@@ -189,31 +120,13 @@ const Statuses = () => {
         break;
     }
 
-    const serviceMap = {
-      text: storeStatusText,
-      image: storeStatusImage,
-      voice: storeStatusVoice,
-      video: storeStatusVideo
-    };
-
     modal.create({
-      title: `Tambah ${Modul.STATUS} ${type} ${time} `,
+      title: `Tambah ${Modul.MESSAGE} ${time} `,
       formFields: fields,
       onSubmit: async (values) => {
-        const file = values.file?.file ?? null;
-
-        const service = serviceMap[type];
-
-        if (!service) {
-          error('Gagal', 'Tipe status tidak dikenali');
-          return false;
-        }
-
         const payload = {
           ...values,
-          data: [],
-          kirim_sekarang: time === 'instant',
-          tipe: type
+          kirim_sekarang: time === 'instant'
         };
 
         if (values.tanggal_mulai) {
@@ -224,15 +137,11 @@ const Statuses = () => {
           payload.tanggal_berakhir = dayjs(values.tanggal_berakhir).toISOString();
         }
 
-        if (file) {
-          payload.file = file;
-        }
-
-        const { message, isSuccess } = await service.execute(payload, file ? values.file.file : {});
+        const { message, isSuccess } = await storeMessage.execute(payload);
 
         if (isSuccess) {
           success('Berhasil', message);
-          fetchStatuses({ page: pagination.page, per_page: pagination.perPage });
+          fetchMessages({ page: pagination.page, per_page: pagination.perPage });
         } else {
           error('Gagal', message);
         }
@@ -250,13 +159,7 @@ const Statuses = () => {
       searchable: true
     },
     {
-      title: 'Tipe Status',
-      dataIndex: 'tipe',
-      sorter: (a, b) => a.tipe.length - b.tipe.length,
-      searchable: true
-    },
-    {
-      title: 'Tanggal Mulai',
+      title: 'tanggal_mulai',
       dataIndex: 'tanggal_mulai',
       sorter: (a, b) => a.tanggal_mulai.length - b.tanggal_mulai.length,
       searchable: true,
@@ -281,27 +184,17 @@ const Statuses = () => {
               let data = [
                 {
                   key: 'nama',
-                  label: `Nama ${Modul.STATUS}`,
+                  label: `Nama ${Modul.MESSAGE}`,
                   children: record.nama
                 },
                 {
-                  key: 'tipe',
-                  label: `Tipe ${Modul.STATUS}`,
-                  children: record.tipe
-                },
-                {
-                  key: 'konten',
-                  label: `Konten ${Modul.STATUS}`,
-                  children: record.konten
-                },
-                {
                   key: 'tanggal_mulai',
-                  label: `Tanggal Publish Dimulai ${Modul.STATUS}`,
+                  label: `Tanggal Publish Dimulai ${Modul.MESSAGE}`,
                   children: dateFormatter(record.tanggal_mulai)
                 },
                 {
                   key: 'tanggal_berakhir',
-                  label: `Tanggal Publish Berakhir ${Modul.STATUS}`,
+                  label: `Tanggal Publish Berakhir ${Modul.MESSAGE}`,
                   children: dateFormatter(record.tanggal_berakhir)
                 }
               ];
@@ -310,14 +203,14 @@ const Statuses = () => {
                 case 'image':
                   data.push({
                     key: 'file',
-                    label: `File ${Modul.STATUS}`,
+                    label: `File ${Modul.MESSAGE}`,
                     children: <Image src={record.image} />
                   });
                   break;
                 case 'video':
                   data.push({
                     key: 'file',
-                    label: `File ${Modul.STATUS}`,
+                    label: `File ${Modul.MESSAGE}`,
                     children: <video src={record.file} controls style={{ width: '100%', maxHeight: 400, borderRadius: 8 }} />
                   });
                   break;
@@ -325,7 +218,7 @@ const Statuses = () => {
                 case 'audio':
                   data.push({
                     key: 'file',
-                    label: `File ${Modul.STATUS}`,
+                    label: `File ${Modul.MESSAGE}`,
                     children: <audio src={record.file} controls style={{ width: '100%' }} />
                   });
                   break;
@@ -343,12 +236,12 @@ const Statuses = () => {
             color="danger"
             onClick={() => {
               modal.delete.default({
-                title: `Delete ${Modul.STATUS}`,
+                title: `Delete ${Modul.MESSAGE}`,
                 onSubmit: async (values) => {
-                  const { message, isSuccess } = await deleteStatus.execute(record.id, values);
+                  const { message, isSuccess } = await deleteMessage.execute(record.id, values);
                   if (isSuccess) {
                     success('Berhasil', message);
-                    fetchStatuses({ page: pagination.page, perPage: pagination.perPage });
+                    fetchMessages({ page: pagination.page, perPage: pagination.perPage });
                   } else {
                     error('Gagal', message);
                   }
@@ -366,24 +259,19 @@ const Statuses = () => {
     <div className="grid w-full grid-cols-12 gap-4">
       <Card className="col-span-12 w-full">
         <div className="mb-6">
-          <Typography.Title level={5}>Data {Modul.STATUS}</Typography.Title>
+          <Typography.Title level={5}>Data {Modul.MESSAGE}</Typography.Title>
         </div>
         <div className="mb-6 flex flex-col-reverse justify-end gap-2 empty:hidden md:flex-row">
-          <Dropdown menu={{ items: menuItems, onClick: handleMenuClick }}>
-            <Button icon={<PlusOutlined />} color="primary" variant="solid">
-              <Space>
-                Tambah
-                <DownOutlined />
-              </Space>
-            </Button>
-          </Dropdown>
+          <Button icon={<PlusOutlined />} color="primary" variant="solid" onClick={() => handleMenuClick()}>
+            Tambah
+          </Button>
         </div>
         <div className="w-full max-w-full overflow-x-auto">
-          <DataTable data={statuses} columns={column} loading={getAllStatuses.isLoading} pagination={pagination} />
+          <DataTable data={messages} columns={column} loading={getAllMessages.isLoading} pagination={pagination} />
         </div>
       </Card>
     </div>
   );
 };
 
-export default Statuses;
+export default Messages;

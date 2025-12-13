@@ -8,6 +8,7 @@ enum Modul {
   BOT_NUMBERS = 'Kontak Bot',
   RECIPIENTTYPES = 'Tipe Recipient',
   STATUS = 'Status',
+  MESSAGE = 'Pesan',
   TEMPLATE_MESSAGE = 'Template Message',
   SUB_TEMPLATE = 'Sub Template Message'
 }
