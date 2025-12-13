@@ -62,12 +62,21 @@ const ChatRoom = ({ phoneId }) => {
 
             const isMe = item.fromMe;
 
+            console.log(item._data?.message?.imageMessage?.directPath);
+
             return (
               <div key={item.id} className={`mb-3 flex flex-col gap-y-1 ${isMe ? 'items-end' : 'items-start'}`}>
-                <div className="inline-flex items-start gap-x-2">
-                  <div className={`max-w-lg rounded-lg p-3 text-xs ${isMe ? 'bg-blue-500 text-white' : 'bg-gray-500 text-white'}`}>{text}</div>
+                <div className="flex items-start gap-x-2">
+                  {/* {item.media && (
+                    <Image
+                      src={item.media.url}
+                      alt="media"
+                      className="max-w-xs rounded-lg"
+                      preview
+                    />
+                  )} */}
+                  {text && <div className={`max-w-lg rounded-lg p-3 text-xs ${isMe ? 'bg-blue-500 text-white' : 'bg-gray-500 text-white'}`}>{text}</div>}
                 </div>
-
                 <span className="px-1 text-[10px] text-gray-400">{time}</span>
               </div>
             );

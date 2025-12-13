@@ -4,11 +4,10 @@ import { useCrudModal, useNotification, usePagination, useService } from '@/hook
 import { AudioOutlined, ClockCircleOutlined, DeleteOutlined, DownOutlined, ExclamationOutlined, FileImageOutlined, FontSizeOutlined, PlusOutlined, ScheduleOutlined, ThunderboltOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Button, Card, Dropdown, Image, Space, Typography } from 'antd';
 import React from 'react';
-import { statusFormFields } from './FormFields';
 import { PhonesService, StatusesService } from '@/services';
-import { InputType } from '@/constants';
 import dayjs from 'dayjs';
 import dateFormatter from '@/utils/dateFormatter';
+import { buildStatusFormFields } from './BuildStatusFormFields';
 
 const Statuses = () => {
   const modal = useCrudModal();
@@ -21,6 +20,16 @@ const Statuses = () => {
   const storeStatusVideo = useService(StatusesService.storeVideo);
   const deleteStatus = useService(StatusesService.delete);
   const pagination = usePagination({ totalData: getAllStatuses.totalData });
+
+  const serviceMap = React.useMemo(
+    () => ({
+      text: storeStatusText,
+      image: storeStatusImage,
+      voice: storeStatusVoice,
+      video: storeStatusVideo
+    }),
+    [storeStatusText, storeStatusImage, storeStatusVoice, storeStatusVideo]
+  );
 
   const fetchStatuses = React.useCallback(() => {
     execute({
@@ -111,90 +120,11 @@ const Statuses = () => {
   };
 
   const onCreate = (type, time) => {
-    let fields = [...statusFormFields({ options: { phones: phones } })];
-    switch (type) {
-      case 'image':
-        fields.push({
-          label: 'Upload Gambar',
-          name: 'file',
-          type: InputType.UPLOAD,
-          max: 1,
-          beforeUpload: () => false,
-          getFileList: (data) => [
-            {
-              url: data?.file,
-              name: data?.name
-            }
-          ],
-          accept: ['.png', '.jpg', '.jpeg']
-        });
-        break;
-
-      case 'voice':
-        fields.push({
-          label: 'Upload Audio',
-          name: 'file',
-          type: InputType.UPLOAD,
-          max: 1,
-          beforeUpload: () => false,
-          getFileList: (data) => [
-            {
-              url: data?.file,
-              name: data?.name
-            }
-          ],
-          accept: ['.mp3', '.wav', '.ogg']
-        });
-        break;
-
-      case 'video':
-        fields.push({
-          label: 'Upload Video',
-          name: 'file',
-          type: InputType.UPLOAD,
-          max: 1,
-          beforeUpload: () => false,
-          getFileList: (data) => [
-            {
-              url: data?.file,
-              name: data?.name
-            }
-          ],
-          accept: ['.mp4', '.mov', '.mkv']
-        });
-        break;
-    }
-    switch (time) {
-      case 'terjadwal':
-        fields.push({
-          label: 'Tanggal Mulai',
-          name: 'tanggal_mulai',
-          type: InputType.DATE
-        });
-        break;
-
-      case 'rentang':
-        fields.push(
-          {
-            label: 'Tanggal Mulai',
-            name: 'tanggal_mulai',
-            type: InputType.DATE
-          },
-          {
-            label: 'Tanggal Berakhir',
-            name: 'tanggal_berakhir',
-            type: InputType.DATE
-          }
-        );
-        break;
-    }
-
-    const serviceMap = {
-      text: storeStatusText,
-      image: storeStatusImage,
-      voice: storeStatusVoice,
-      video: storeStatusVideo
-    };
+    const fields = buildStatusFormFields({
+      type,
+      time,
+      phones
+    });
 
     modal.create({
       title: `Tambah ${Modul.STATUS} ${type} ${time} `,
@@ -298,12 +228,12 @@ const Statuses = () => {
                 },
                 {
                   key: 'tanggal_mulai',
-                  label: `Tanggal Publish Dimulai ${Modul.STATUS}`,
+                  label: `Mulai Publish ${Modul.STATUS}`,
                   children: dateFormatter(record.tanggal_mulai)
                 },
                 {
                   key: 'tanggal_berakhir',
-                  label: `Tanggal Publish Berakhir ${Modul.STATUS}`,
+                  label: `Akhir Publish ${Modul.STATUS}`,
                   children: dateFormatter(record.tanggal_berakhir)
                 }
               ];
@@ -313,7 +243,7 @@ const Statuses = () => {
                   data.push({
                     key: 'file',
                     label: `File ${Modul.STATUS}`,
-                    children: <Image src={record.image} />
+                    children: <Image src={record.file} />
                   });
                   break;
                 case 'video':
@@ -324,7 +254,7 @@ const Statuses = () => {
                   });
                   break;
 
-                case 'audio':
+                case 'voice':
                   data.push({
                     key: 'file',
                     label: `File ${Modul.STATUS}`,
@@ -371,7 +301,7 @@ const Statuses = () => {
           <Typography.Title level={5}>Data {Modul.STATUS}</Typography.Title>
         </div>
         <div className="mb-6 flex flex-col-reverse justify-end gap-2 empty:hidden md:flex-row">
-          <Dropdown menu={{ items: menuItems, onClick: handleMenuClick }}>
+          <Dropdown trigger={['click']} menu={{ items: menuItems, onClick: handleMenuClick }}>
             <Button icon={<PlusOutlined />} color="primary" variant="solid">
               <Space>
                 Tambah

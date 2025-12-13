@@ -10,6 +10,7 @@ import EditSubTemplateForm from './EditSubTemplateForm';
 import Modul from '@/constants/Modul';
 import { subTemplateFormFields } from './FormFields';
 import { InputType } from '@/constants';
+import { FileImageOutlined, FontSizeOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
 const DraggableTabNode = ({ children, ...props }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
@@ -187,52 +188,50 @@ const SubTemplates = () => {
 
   const onEdit = (targetKey, action) => {
     if (action === 'add') {
-      // modal.show.paragraph({
-      //   data: {
-      //     content: (
-      //       <div className="mt-4 flex items-start justify-center gap-x-4">
-      //         <Card
-      //           className="h-full w-full"
-      //           hoverable
-      //           onClick={() => {
-      //             createModal('text');
-      //           }}
-      //         >
-      //           <div className="flex h-full flex-col items-center justify-center gap-y-2">
-      //             <FontSizeOutlined className="mb-2 text-3xl" />
-      //             <span className="text-sm font-semibold">Teks</span>
-      //           </div>
-      //         </Card>
-      //         <Card
-      //           className="h-full w-full"
-      //           hoverable
-      //           onClick={() => {
-      //             createModal('image');
-      //           }}
-      //         >
-      //           <div className="flex h-full flex-col items-center justify-center gap-y-2">
-      //             <FileImageOutlined className="mb-2 text-3xl" />
-      //             <span className="text-sm font-semibold">Gambar</span>
-      //           </div>
-      //         </Card>
-      //         <Card
-      //           className="h-full w-full"
-      //           hoverable
-      //           onClick={() => {
-      //             createModal('video');
-      //           }}
-      //         >
-      //           <div className="flex h-full flex-col items-center justify-center gap-y-2">
-      //             <FileImageOutlined className="mb-2 text-3xl" />
-      //             <span className="text-sm font-semibold">Video</span>
-      //           </div>
-      //         </Card>
-      //       </div>
-      //     )
-      //   }
-      // });
-
-      createModal('text');
+      modal.show.paragraph({
+        data: {
+          content: (
+            <div className="mt-4 flex items-start justify-center gap-x-4">
+              <Card
+                className="h-full w-full"
+                hoverable
+                onClick={() => {
+                  createModal('text');
+                }}
+              >
+                <div className="flex h-full flex-col items-center justify-center gap-y-2">
+                  <FontSizeOutlined className="mb-2 text-3xl" />
+                  <span className="text-sm font-semibold">Teks</span>
+                </div>
+              </Card>
+              <Card
+                className="h-full w-full"
+                hoverable
+                onClick={() => {
+                  createModal('image');
+                }}
+              >
+                <div className="flex h-full flex-col items-center justify-center gap-y-2">
+                  <FileImageOutlined className="mb-2 text-3xl" />
+                  <span className="text-sm font-semibold">Gambar</span>
+                </div>
+              </Card>
+              <Card
+                className="h-full w-full"
+                hoverable
+                onClick={() => {
+                  createModal('video');
+                }}
+              >
+                <div className="flex h-full flex-col items-center justify-center gap-y-2">
+                  <VideoCameraOutlined className="mb-2 text-3xl" />
+                  <span className="text-sm font-semibold">Video</span>
+                </div>
+              </Card>
+            </div>
+          )
+        }
+      });
     }
 
     if (action === 'remove') {
