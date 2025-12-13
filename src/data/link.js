@@ -40,13 +40,16 @@ export const dashboardLink = [
       { path: '/tenant/dashboard/recipients', label: 'Recipient', element: Dashboard.Recipients },
       { path: '/tenant/dashboard/campaigns', label: 'Campaign', element: Dashboard.Campaigns },
       { path: '/tenant/dashboard/statuses', label: 'Status', element: Dashboard.Statuses },
-      { path: '/tenant/dashboard/botnumbers', label: 'Bot Number', element: Dashboard.BotNumbers }
+      { path: '/tenant/dashboard/template_messages', label: 'Template', element: Dashboard.TemplateMessages }
     ]
   },
   {
     label: 'Phones',
     icon: PhoneOutlined,
-    children: [{ path: '/tenant/dashboard/phones', label: 'Phones', element: Dashboard.Phones }]
+    children: [
+      { path: '/tenant/dashboard/phones', label: 'Phones', element: Dashboard.Phones },
+      { path: '/tenant/dashboard/botnumbers', label: 'Bot Number', element: Dashboard.BotNumbers }
+    ]
   }
 ].map((item) => ({
   ...item,

@@ -8,7 +8,7 @@ import { RouterProvider } from 'react-router';
 import './index.css';
 import { flattenLandingLinks } from './utils/landingLink';
 import { Notfound } from './pages/result';
-import { CreateCampaign, Inbox, ManageBroadcast } from './pages/dashboard';
+import { CreateCampaign, Inbox, ManageBroadcast, SubTemplates, TemplateMessages } from './pages/dashboard';
 
 function App() {
   // const { isLoading, user } = useAuth();
@@ -61,7 +61,8 @@ function App() {
             ),
             { path: '/tenant/dashboard/broadcast/:id', element: <ManageBroadcast /> },
             { path: '/tenant/dashboard/campaigns/create', element: <CreateCampaign /> },
-            { path: '/tenant/dashboard/inbox/:phoneId', element: <Inbox /> }
+            { path: '/tenant/dashboard/inbox/:phoneId', element: <Inbox /> },
+            { path: '/tenant/dashboard/template_messages/:templateMessageId', element: <SubTemplates /> }
           ]
         },
         {

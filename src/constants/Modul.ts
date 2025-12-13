@@ -7,7 +7,9 @@ enum Modul {
   CAMPAIGNS = 'Campaign',
   BOT_NUMBERS = 'Kontak Bot',
   RECIPIENTTYPES = 'Tipe Recipient',
-  STATUS = 'Status'
+  STATUS = 'Status',
+  TEMPLATE_MESSAGE = 'Template Message',
+  SUB_TEMPLATE = 'Sub Template Message'
 }
 
 export default Modul;

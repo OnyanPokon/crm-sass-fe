@@ -4,3 +4,5 @@ export { default as MessagesService } from './MessagesService';
 export { default as RecipientTypesService } from './RecipientTypesService';
 export { default as RecipientsService } from './RecipientsService';
 export { default as StatusesService } from './StatusesService';
+export { default as TemplateMessagesService } from './TemplateMessagesService';
+export { default as SubTemplatesService } from './SubTemplatesService';

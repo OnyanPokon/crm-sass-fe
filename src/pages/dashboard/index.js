@@ -14,3 +14,5 @@ export { default as BotNumbers } from './tenants/BotNumbers/BotNumbers';
 export { default as Phones } from './tenants/Phones/Phones';
 export { default as RecipientTypes } from './tenants/Recipients/RecipientTypes';
 export { default as Statuses } from './tenants/Statuses/Statuses';
+export { default as TemplateMessages } from './tenants/TemplateMessages/TemplateMessages';
+export { default as SubTemplates } from './tenants/TemplateMessages/SubTemplates';
