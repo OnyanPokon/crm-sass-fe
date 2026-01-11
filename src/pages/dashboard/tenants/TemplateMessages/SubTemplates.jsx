@@ -8,9 +8,8 @@ import { SubTemplatesService, TemplateMessagesService } from '@/services';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditSubTemplateForm from './EditSubTemplateForm';
 import Modul from '@/constants/Modul';
-import { subTemplateFormFields } from './FormFields';
-import { InputType } from '@/constants';
-import { FileImageOutlined, FontSizeOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { FileImageOutlined, FileOutlined, FontSizeOutlined, PlusOutlined, SaveOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import useCreateModal from './Modals/UseCreateModal';
 
 const DraggableTabNode = ({ children, ...props }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
@@ -40,8 +39,9 @@ const SubTemplates = () => {
   const { execute: fetchDetailTemplateMessage, ...getDetailTemplateMessage } = useService(TemplateMessagesService.getDetailTemplateMessage);
   const { execute: fetchAllSubTemplate, ...getAllSubTemplate } = useService(SubTemplatesService.getAll);
   const updateTemplateMessage = useService(TemplateMessagesService.update);
-  const storeSubTemplate = useService(SubTemplatesService.store);
   const deleteSubTemplate = useService(SubTemplatesService.delete);
+
+  const { imageModal, textModal, videoModal, fileModal } = useCreateModal();
 
   const [items, setItems] = useState([]);
 
@@ -91,87 +91,6 @@ const SubTemplates = () => {
     }
   }, [activeKey, items]);
 
-  const createModal = (type) => {
-    let fields = [...subTemplateFormFields()];
-    switch (type) {
-      case 'image':
-        fields.push({
-          label: 'Upload Gambar',
-          name: 'file',
-          type: InputType.UPLOAD,
-          max: 1,
-          beforeUpload: () => false,
-          getFileList: (data) => [
-            {
-              url: data?.file,
-              name: data?.name
-            }
-          ],
-          accept: ['.png', '.jpg', '.jpeg']
-        });
-        break;
-
-      case 'voice':
-        fields.push({
-          label: 'Upload Audio',
-          name: 'file',
-          type: InputType.UPLOAD,
-          max: 1,
-          beforeUpload: () => false,
-          getFileList: (data) => [
-            {
-              url: data?.file,
-              name: data?.name
-            }
-          ],
-          accept: ['.mp3', '.wav', '.ogg']
-        });
-        break;
-
-      case 'video':
-        fields.push({
-          label: 'Upload Video',
-          name: 'file',
-          type: InputType.UPLOAD,
-          max: 1,
-          beforeUpload: () => false,
-          getFileList: (data) => [
-            {
-              url: data?.file,
-              name: data?.name
-            }
-          ],
-          accept: ['.mp4', '.mov', '.mkv']
-        });
-        break;
-    }
-    modal.create({
-      title: `Tambah ${Modul.SUB_TEMPLATE}`,
-      formFields: fields,
-      onSubmit: async (values) => {
-        const payload = {
-          ...values,
-          tipe: type,
-          id_template_message: templateMessageId
-        };
-
-        if (values.file) {
-          payload.file = values.file.file;
-        }
-        const fileToSend = values.file ? values.file.file : null;
-
-        const { message, isSuccess } = await storeSubTemplate.execute(payload, fileToSend);
-        if (isSuccess) {
-          success('Berhasil', message);
-          fetchAllSubTemplate({ templateMessageId: templateMessageId });
-        } else {
-          error('Gagal', message);
-        }
-        return isSuccess;
-      }
-    });
-  };
-
   const sensor = useSensor(PointerSensor, {
     activationConstraint: { distance: 5 }
   });
@@ -186,54 +105,80 @@ const SubTemplates = () => {
     }
   };
 
+  const addModal = () => {
+    modal.show.paragraph({
+      data: {
+        content: (
+          <div className="mt-4 flex items-start justify-center gap-x-4">
+            <Card
+              className="h-full w-full"
+              hoverable
+              onClick={() =>
+                textModal.open({
+                  fetchAllSubTemplate,
+                  templateMessageId
+                })
+              }
+            >
+              <div className="flex h-full flex-col items-center justify-center gap-y-2">
+                <FontSizeOutlined className="mb-2 text-3xl" />
+                <span className="text-sm font-semibold">Teks</span>
+              </div>
+            </Card>
+            <Card
+              className="h-full w-full"
+              hoverable
+              onClick={() =>
+                imageModal.open({
+                  fetchAllSubTemplate,
+                  templateMessageId
+                })
+              }
+            >
+              <div className="flex h-full flex-col items-center justify-center gap-y-2">
+                <FileImageOutlined className="mb-2 text-3xl" />
+                <span className="text-sm font-semibold">Gambar</span>
+              </div>
+            </Card>
+            <Card
+              className="h-full w-full"
+              hoverable
+              onClick={() =>
+                videoModal.open({
+                  fetchAllSubTemplate,
+                  templateMessageId
+                })
+              }
+            >
+              <div className="flex h-full flex-col items-center justify-center gap-y-2">
+                <VideoCameraOutlined className="mb-2 text-3xl" />
+                <span className="text-sm font-semibold">Video</span>
+              </div>
+            </Card>
+            <Card
+              className="h-full w-full"
+              hoverable
+              onClick={() =>
+                fileModal.open({
+                  fetchAllSubTemplate,
+                  templateMessageId
+                })
+              }
+            >
+              <div className="flex h-full flex-col items-center justify-center gap-y-2">
+                <FileOutlined className="mb-2 text-3xl" />
+                <span className="text-sm font-semibold">File</span>
+              </div>
+            </Card>
+          </div>
+        )
+      }
+    });
+  };
+
   const onEdit = (targetKey, action) => {
     if (action === 'add') {
-      modal.show.paragraph({
-        data: {
-          content: (
-            <div className="mt-4 flex items-start justify-center gap-x-4">
-              <Card
-                className="h-full w-full"
-                hoverable
-                onClick={() => {
-                  createModal('text');
-                }}
-              >
-                <div className="flex h-full flex-col items-center justify-center gap-y-2">
-                  <FontSizeOutlined className="mb-2 text-3xl" />
-                  <span className="text-sm font-semibold">Teks</span>
-                </div>
-              </Card>
-              <Card
-                className="h-full w-full"
-                hoverable
-                onClick={() => {
-                  createModal('image');
-                }}
-              >
-                <div className="flex h-full flex-col items-center justify-center gap-y-2">
-                  <FileImageOutlined className="mb-2 text-3xl" />
-                  <span className="text-sm font-semibold">Gambar</span>
-                </div>
-              </Card>
-              <Card
-                className="h-full w-full"
-                hoverable
-                onClick={() => {
-                  createModal('video');
-                }}
-              >
-                <div className="flex h-full flex-col items-center justify-center gap-y-2">
-                  <VideoCameraOutlined className="mb-2 text-3xl" />
-                  <span className="text-sm font-semibold">Video</span>
-                </div>
-              </Card>
-            </div>
-          )
-        }
-      });
-
-      // createModal('text');
+      addModal();
     }
 
     if (action === 'remove') {
@@ -257,37 +202,56 @@ const SubTemplates = () => {
 
   return (
     <div className="grid w-full grid-cols-12 gap-4">
-      <Card className="col-span-4 h-fit w-full">
-        <Typography.Title level={5}>{detailTemplateMessage.nama}</Typography.Title>
-        <hr className="my-4" />
-        <div className="w-full">
-          <Button
-            color="primary"
-            variant="solid"
-            onClick={async () => {
-              const ids = items.map((item) => item.key);
-              const { message, isSuccess } = await updateTemplateMessage.execute(detailTemplateMessage.id, {
-                ...detailTemplateMessage,
-                konten: ids
-              });
+      <Card className="col-span-12 w-full">
+        <div className="col-span-12 inline-flex w-full items-center justify-between px-2">
+          <div>
+            <Typography.Title style={{ margin: 0 }} level={4}>
+              Sub Template Message
+            </Typography.Title>
+            <span>Kelola Sub Template Message</span>
+          </div>
+          <div className="inline-flex items-center gap-x-2">
+            <Button
+              icon={<PlusOutlined />}
+              shape="round"
+              color="primary"
+              variant="outlined"
+              onClick={() => {
+                addModal();
+              }}
+            >
+              Tambah
+            </Button>
+            <Button
+              icon={<SaveOutlined />}
+              shape="round"
+              color="primary"
+              variant="solid"
+              onClick={async () => {
+                const ids = items.map((item) => item.key);
+                const { message, isSuccess } = await updateTemplateMessage.execute(detailTemplateMessage.id, {
+                  ...detailTemplateMessage,
+                  konten: ids
+                });
 
-              if (isSuccess) {
-                success('Berhasil', message);
-                fetchAllSubTemplate({ templateMessageId: templateMessageId });
-                navigate(-1);
-              } else {
-                error('Gagal', message);
-              }
+                if (isSuccess) {
+                  success('Berhasil', message);
+                  fetchAllSubTemplate({ templateMessageId: templateMessageId });
+                  navigate(-1);
+                } else {
+                  error('Gagal', message);
+                }
 
-              return isSuccess;
-            }}
-          >
-            Simpan
-          </Button>
+                return isSuccess;
+              }}
+            >
+              Simpan
+            </Button>
+          </div>
         </div>
       </Card>
 
-      <Card className="col-span-8 h-fit w-full">
+      <Card className="col-span-12 w-full">
         <Tabs
           type="editable-card"
           items={items}

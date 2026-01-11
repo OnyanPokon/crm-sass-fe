@@ -16,7 +16,8 @@ const CrudModalContext = createContext({
   },
   close: () => {},
   setIsLoading: () => {},
-  setFormFields: () => {}
+  setFormFields: () => {},
+  width: undefined
 });
 
 export default CrudModalContext;

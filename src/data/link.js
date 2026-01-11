@@ -47,7 +47,8 @@ export const dashboardLink = [
     icon: PhoneOutlined,
     children: [
       { path: '/tenant/dashboard/messages', label: 'Messages', element: Dashboard.Messages },
-      { path: '/tenant/dashboard/phones', label: 'Phones', element: Dashboard.Phones }
+      { path: '/tenant/dashboard/phones', label: 'Phones', element: Dashboard.Phones },
+      { path: '/tenant/dashboard/flow', label: 'Flow', element: Dashboard.Flow }
     ]
   }
 ].map((item) => ({

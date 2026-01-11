@@ -17,3 +17,4 @@ export { default as Statuses } from './tenants/Statuses/Statuses';
 export { default as TemplateMessages } from './tenants/TemplateMessages/TemplateMessages';
 export { default as SubTemplates } from './tenants/TemplateMessages/SubTemplates';
 export { default as Messages } from './tenants/Messages/Messages';
+export { default as Flow } from './tenants/Flow/Flow';

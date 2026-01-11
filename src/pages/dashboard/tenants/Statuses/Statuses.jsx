@@ -369,7 +369,7 @@ const Statuses = () => {
           <Typography.Title level={5}>Data {Modul.STATUS}</Typography.Title>
         </div>
         <div className="mb-6 flex flex-col-reverse justify-end gap-2 empty:hidden md:flex-row">
-          <Dropdown menu={{ items: menuItems, onClick: handleMenuClick }}>
+          <Dropdown menu={{ items: menuItems, onClick: handleMenuClick }} trigger={['click']}>
             <Button icon={<PlusOutlined />} color="primary" variant="solid">
               <Space>
                 Tambah

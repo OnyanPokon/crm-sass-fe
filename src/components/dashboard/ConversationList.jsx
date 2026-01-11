@@ -39,10 +39,10 @@ const ConversationList = ({ phoneId }) => {
             <div className="flex flex-col overflow-hidden">
               <div className="inline-flex items-center gap-x-1 truncate font-semibold">
                 <WhatsAppOutlined className="text-green-500" />
-                {item.lastMessage.from.endsWith('lid') ? (item.lastMessage._data.key.remoteJidAlt ? item.lastMessage._data.key.remoteJidAlt.split('@')[0] : '-') : item.lastMessage.from.split('@')[0]}
+                {item?.lastMessage?.from?.endsWith('lid') ? (item.lastMessage._data.key.remoteJidAlt ? item.lastMessage._data.key.remoteJidAlt.split('@')[0] : '-') : item?.lastMessage?.from?.split('@')[0]}
               </div>
 
-              <span className="w-full truncate text-sm">{item.lastMessage.body}</span>
+              <span className="w-full truncate text-sm">{item?.lastMessage?.body}</span>
             </div>
           </div>
 

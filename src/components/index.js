@@ -10,6 +10,9 @@ export { default as ChatRoom } from './dashboard/ChatRoom';
 export { default as ChatForm } from './dashboard/ChatForm/ChatForm';
 export { default as StatusBadge } from './dashboard/StatusBadge';
 
+export { default as BaseNode } from './dashboard/Flow/BaseNode';
+export { default as FlowCanvas } from './dashboard/Flow/FlowCanvas';
+
 export { default as Navbar } from './landing/Navbar';
 export { default as Footer } from './landing/Footer';
 

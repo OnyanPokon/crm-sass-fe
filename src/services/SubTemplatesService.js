@@ -43,6 +43,62 @@ export default class SubTemplatesService {
   }
 
   /**
+   * @param {SubTemplates} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async storeText(data) {
+    return await api.post('/content-template-message/text', { body: data });
+  }
+
+  /**
+   * @param {SubTemplates} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async storeImage(data, file) {
+    return await api.post('/content-template-message/image', { body: data, file: { file: file } });
+  }
+
+  /**
+   * @param {SubTemplates} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async storeFile(data, file) {
+    return await api.post('/content-template-message/file', { body: data, file: { file: file } });
+  }
+
+  /**
+   * @param {SubTemplates} data
+   * @param {string} token
+   * @returns {Promise<{
+   *  code: HTTPStatusCode;
+   *  status: boolean;
+   *  message: string;
+   *  errors?: { [key: string]: string[] };
+   * }}
+   */
+  static async storeVideo(data, file) {
+    return await api.post('/content-template-message/video', { body: data, file: { file: file } });
+  }
+
+  /**
    * @param {number} id
    * @param {SubTemplates} data
    * @param {string} token

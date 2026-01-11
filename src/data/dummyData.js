@@ -683,3 +683,95 @@ export const staticPayloadCreatePhone = {
     }
   ]
 };
+
+export const NODE_TYPE = {
+  AI: 'ai',
+  INPUT: 'input',
+  OUTPUT: 'output'
+};
+
+export const flowMock = {
+  nodes: [
+    {
+      id: '1',
+      type: 'base',
+      position: { x: 50, y: 200 },
+      data: {
+        nodeType: 'input',
+        title: 'User Register',
+        description: 'Triggered when user signs up',
+        icon: '/image_asset/user.png'
+      }
+    },
+    {
+      id: '2',
+      type: 'base',
+      position: { x: 300, y: 200 },
+      data: {
+        nodeType: 'ai',
+        title: 'Generate Welcome Message',
+        description: 'AI creates personalized message',
+        icon: '/image_asset/ai.png'
+      }
+    },
+    {
+      id: '3',
+      type: 'base',
+      position: { x: 600, y: 100 },
+      data: {
+        nodeType: 'output',
+        title: 'Send Email',
+        description: 'Send email to user',
+        icon: '/image_asset/email.png'
+      }
+    },
+    {
+      id: '4',
+      type: 'base',
+      position: { x: 600, y: 300 },
+      data: {
+        nodeType: 'output',
+        title: 'Send WhatsApp',
+        description: 'Send WhatsApp notification',
+        icon: '/image_asset/whatsapp.png'
+      }
+    },
+    {
+      id: '5',
+      type: 'base',
+      position: { x: 900, y: 200 },
+      data: {
+        nodeType: 'ai',
+        title: 'Analyze Engagement',
+        description: 'AI predicts user engagement',
+        icon: '/image_asset/analytics.png'
+      }
+    }
+  ],
+
+  edges: [
+    {
+      id: 'e1-2',
+      source: '1',
+      target: '2',
+      animated: true
+    },
+    {
+      id: 'e2-3',
+      source: '2',
+      target: '3',
+      animated: true
+    },
+    {
+      id: 'e2-4',
+      source: '2',
+      target: '4',
+      animated: true
+    },
+    {
+      id: 'e3-5',
+      source: '3',
+      target: '5'
+    }
+  ]
+};

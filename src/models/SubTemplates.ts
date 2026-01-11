@@ -3,7 +3,7 @@ import Model from './Model';
 export interface IncomingApiData {
   id: string;
   templateMessageId: string;
-  type: 'text' | 'image' | 'video' | 'voice';
+  type: 'text' | 'image' | 'video' | 'file';
   file: string | null;
   content: string;
 }
@@ -28,7 +28,7 @@ export default class SubTemplates extends Model {
   constructor(
     public id: string,
     public id_template_message: string,
-    public tipe: 'text' | 'image' | 'video' | 'voice',
+    public tipe: 'text' | 'image' | 'video' | 'file',
     public file: string | null,
     public konten: string
   ) {

@@ -45,7 +45,11 @@ const ChatRoom = ({ phoneId }) => {
       <div className="flex items-center gap-x-2 border-b border-gray-100 p-4">
         <Avatar src={activeConversation.picture} />
         <span className="font-semibold">
-          {activeConversation.lastMessage.from.endsWith('lid') ? (activeConversation.lastMessage._data.key.remoteJidAlt ? activeConversation.lastMessage._data.key.remoteJidAlt.split('@')[0] : '-') : activeConversation.lastMessage.from.split('@')[0]}
+          {activeConversation?.lastMessage?.from.endsWith('lid')
+            ? activeConversation.lastMessage._data.key.remoteJidAlt
+              ? activeConversation.lastMessage._data.key.remoteJidAlt.split('@')[0]
+              : '-'
+            : activeConversation?.lastMessage?.from?.split('@')[0]}
         </span>
       </div>
 

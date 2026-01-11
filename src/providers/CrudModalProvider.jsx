@@ -11,7 +11,7 @@ import { useCallback, useMemo, useState } from 'react';
  *  create: (params: { title: string, formFields: { label: string, name: string, type: string, rules: object[] }[], onSubmit: (values: object) => Promise<any>, onChange: (changedValues: object) => void }) => void;
  *  show: {
  *   default: (params: { title: string, data: object, formFields: { label: string, name: string, type: string, rules: object[] }[] }) => void;
- *   paragraph: (params: { title: string, data: string[] }) => void;
+ *   paragraph: (params: { title: string, data: string[], width }) => void;
  *   list: (params: { title: string, data: string[] }) => void;
  *   table: (params: { title: string, data: object[], columns: import('antd').TableProps['columns'] }) => void;
  *   description: (params: { title: string, data: import('antd').DescriptionsProps['items'] }) => void;
@@ -45,7 +45,9 @@ export default function CrudModalProvider({ children }) {
   const [formFields, setFormFields] = useState([]);
   const [columns, setColumns] = useState([]);
 
-  const open = useCallback(({ type, title = '', data = null, formFields = [], onSubmit = () => {}, onChange = () => {}, columns = [] }) => {
+  const [width, setWidth] = useState(undefined);
+
+  const open = useCallback(({ type, title = '', data = null, formFields = [], onSubmit = () => {}, onChange = () => {}, columns = [], width }) => {
     setTitle(title);
     setData(data);
     setType(type);
@@ -54,6 +56,7 @@ export default function CrudModalProvider({ children }) {
     setOnChange(() => onChange);
     setIsOpen(true);
     setColumns(columns);
+    setWidth(width);
   }, []);
 
   const methods = useMemo(
@@ -79,6 +82,7 @@ export default function CrudModalProvider({ children }) {
   const close = useCallback(() => {
     setIsOpen(false);
     setIsLoading(false);
+    setWidth(undefined);
   }, []);
 
   return (
@@ -105,7 +109,7 @@ export default function CrudModalProvider({ children }) {
           isLoading={isLoading}
         />
       )}
-      {isInEnum(type, ReadModalType) && <ReadModal isModalOpen={isOpen} data={data} close={close} title={title} type={type} columns={columns} />}
+      {isInEnum(type, ReadModalType) && <ReadModal isModalOpen={isOpen} data={data} close={close} title={title} type={type} columns={columns} width={width} />}
     </CrudModalContext.Provider>
   );
 }

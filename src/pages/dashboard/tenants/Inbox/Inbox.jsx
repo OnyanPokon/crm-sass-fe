@@ -2,7 +2,7 @@ import { ChatRoom, ConversationList } from '@/components';
 import { WebSocketProvider } from '@/providers';
 import { useChatStore } from '@/store/chat.store';
 import { UserOutlined } from '@ant-design/icons';
-import { Button, Input, Tabs } from 'antd';
+import { Avatar, Button, Drawer, Input, Tabs } from 'antd';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -10,6 +10,13 @@ const Inbox = () => {
   const { phoneId } = useParams();
   const activeConversation = useChatStore((state) => state.activeConversation);
   const setActiveConversation = useChatStore((state) => state.setActiveConversation);
+  const [open, setOpen] = React.useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const [activeTab, setActiveTab] = React.useState('contact');
 
@@ -49,10 +56,34 @@ const Inbox = () => {
         <div className="col-span-9 flex h-screen w-full gap-x-4 p-[0.10rem]">
           <ChatRoom phoneId={phoneId} />
           <div className="h-full rounded-lg bg-white p-4 shadow-sm">
-            <Button variant="outlined" icon={<UserOutlined />} color="primary" disabled={!activeConversation} />
+            <Button variant="outlined" icon={<UserOutlined />} color="primary" disabled={!activeConversation} onClick={() => showDrawer()} />
           </div>
         </div>
       </div>
+      <Drawer
+        title={
+          activeConversation?.lastMessage?.from.endsWith('lid')
+            ? activeConversation?.lastMessage?._data?.key?.remoteJidAlt
+              ? activeConversation?.lastMessage?._data?.key?.remoteJidAlt?.split('@')[0]
+              : '-'
+            : activeConversation?.lastMessage?.from.split('@')[0]
+        }
+        closable={{ 'aria-label': 'Close Button' }}
+        onClose={onClose}
+        open={open}
+        asd
+      >
+        <div className="flex w-full flex-col items-center justify-center gap-y-2">
+          <Avatar src={activeConversation?.picture} size={80} />
+          <b>
+            {activeConversation?.lastMessage?.from.endsWith('lid')
+              ? activeConversation?.lastMessage?._data?.key?.remoteJidAlt
+                ? activeConversation?.lastMessage?._data?.key?.remoteJidAlt?.split('@')[0]
+                : '-'
+              : activeConversation?.lastMessage?.from.split('@')[0]}
+          </b>
+        </div>
+      </Drawer>
     </WebSocketProvider>
   );
 };

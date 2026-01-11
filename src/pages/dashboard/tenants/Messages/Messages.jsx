@@ -159,7 +159,7 @@ const Messages = () => {
       searchable: true
     },
     {
-      title: 'tanggal_mulai',
+      title: 'Tanggal Mulai',
       dataIndex: 'tanggal_mulai',
       sorter: (a, b) => a.tanggal_mulai.length - b.tanggal_mulai.length,
       searchable: true,
